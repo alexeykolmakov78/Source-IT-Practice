@@ -163,7 +163,7 @@ class Game {
     private byte retryCounter;
     private int secret;
     private int variant;
-    private int input;
+    private boolean isValidVariant;
 
     Game() {
         retryCounter = 7;
@@ -175,34 +175,35 @@ class Game {
         secret = rnd.nextInt(100) + 1;
         System.out.println(" Введите число от 1 до 100;    secret = " + secret);
         while (retryCounter > 0) {
+            isValidVariant = true;
             retryCounter--;
-            tryInputNumber();
-            checkAnswer();
+            variant = inputNumber();
+            if (isValidVariant) {
+                checkAnswer();
+            }
         }
         end();
     }
 
-    public void tryInputNumber() {
-        try {
-            variant = inputNumber();
-        } catch (Exception e) {
-            System.out.println("Введено неверное значение");
-        }
-    }
-
-    private int inputNumber() throws Exception {
-        int number;
+    private int inputNumber() {
         Scanner scanner = new Scanner(System.in);
+        int number;
         if (scanner.hasNextInt()) {
             number = scanner.nextInt();
-            if (number > 1 || number < 100) {
+            if (number < 1 || number > 100) {
+                isValidVariant = false;
+                System.out.print("Введено неверное значение. ");
+                System.out.println("Осталось " + retryCounter + " попыток");
+                return 0;
+            } else {
                 return number;
             }
         }
-        System.out.println("inputNumber() throws Exception");
-        throw new Exception();
+        System.out.print("Введено неверное значение. ");
+        System.out.println("Осталось " + retryCounter + " попыток");
+        isValidVariant = false;
+        return 0;
     }
-
 
     private void checkAnswer() {
         if (variant == secret) {
