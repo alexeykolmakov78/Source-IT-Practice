@@ -93,6 +93,7 @@ public class HomeTask4Additional {
     }
 
     private static int[] maxElementFirst(int[] sub) {
+        int[] result = sub.clone();
         int indexOfMax = 0;
         for (int i = 1; i < sub.length; i++) {
             if (sub[i] > sub[indexOfMax]) {
@@ -104,7 +105,7 @@ public class HomeTask4Additional {
             sub[indexOfMax] = sub[0];
             sub[0] = tmp;
         }
-        return sub;
+        return result;
     }
 
     private static boolean isUniqueCombination(int x, int y, boolean[][] combinations) {
@@ -169,7 +170,6 @@ class Game {
         retryCounter = 7;
         System.out.println(" Угадай число с 7-ми попыток  ");
     }
-
 
     public void start() {
         secret = rnd.nextInt(100) + 1;
