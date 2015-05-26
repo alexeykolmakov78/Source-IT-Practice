@@ -16,29 +16,37 @@ import java.util.Scanner;
 * 5) Вместо представленного метода equalsPoint перегрузите в классе методы equals и hashCode.
 */
 public class Point {
-    private static boolean inputError;
 
     private int x;
     private int y;
 
-    public Point() {
-        inputError = false;
-        x = inputFromKeyboard("Input X:");
-        y = inputFromKeyboard("Input Y:");
-        if (inputError) {
-            x = 0;
-            y = 0;
-            System.out.println("The coordinates must be integer!!!");
-            //  throw new IllegalArgumentException("Point():  The coordinates must be integer!!!");
-        }
-        System.out.println(this);
-    }
-
     public Point(int x, int y) {
-        inputError = false;
         this.x = x;
         this.y = y;
         System.out.println(this);
+    }
+
+    public static Point inputPointFromKeyboard() {
+        boolean inputError = false;
+        int x = 0;
+        int y = 0;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Input X , Y :");
+        if (scanner.hasNextInt()) {
+            x = scanner.nextInt();
+            y =scanner.nextInt();
+        } else {
+            inputError = true;
+        }
+        if (inputError) {
+            System.out.println("The coordinates must be integer!!!");
+            return null;
+            //  throw new IllegalArgumentException("Point():  The coordinates must be integer!!!");
+        } else {
+            System.out.println();
+            return new Point(x, y);
+        }
     }
 
     public static boolean isSymmetricByZero(Point p1, Point p2) {
@@ -46,12 +54,12 @@ public class Point {
     }
 
     public static boolean isCollinear(Point p1, Point p2, Point p3) {
-    // уравнение пямой: y = k * x + b;
+        // уравнение пямой: y = k * x + b;
         if (p1.equals(p2) || p2.equals(p3) || p1.equals(p3)) {
             System.out.println("All points must be different!!!");
             //  throw new IllegalArgumentException("isCollinear(...):  All points must be different!!!");
             return false;
-        }else {
+        } else {
             int k;
             int b;
             k = (p1.y - p2.y) / (p1.x - p2.x);
@@ -61,9 +69,7 @@ public class Point {
     }
 
     public void printCoordinateQuarter() {
-        if (!inputError) {
-            System.out.println("The point is in the " + this.getCoordinateQuarter() + " coordinate quarter.");
-        }
+        System.out.println("The point is in the " + this.getCoordinateQuarter() + " coordinate quarter.");
     }
 
     @Override
@@ -95,27 +101,15 @@ public class Point {
         } else if (x < 0 && y >= 0) {
             return CoordinateQuarter.TOP_LEFT;
         } else if (x >= 0 && y < 0) {
-            return CoordinateQuarter.LOWER_RIGHT;
+            return CoordinateQuarter.BOTTOM_RIGHT;
         } else // if (x < 0 && y < 0)
-            return CoordinateQuarter.LOWER_LEFT;
-    }
-
-    private int inputFromKeyboard(String message) {
-        System.out.println(message);
-        Scanner scanner = new Scanner(System.in);
-        int number;
-        if (scanner.hasNextInt()) {
-            number = scanner.nextInt();
-            return number;
-        }
-        inputError = true;
-        return 0;
+            return CoordinateQuarter.BOTTOM_LEFT;
     }
 
     enum CoordinateQuarter {
         TOP_LEFT,
         TOP_RIGHT,
-        LOWER_LEFT,
-        LOWER_RIGHT
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT
     }
 }
