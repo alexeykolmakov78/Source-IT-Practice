@@ -27,25 +27,23 @@ public class Point {
     }
 
     public static Point inputPointFromKeyboard() {
-        boolean inputError = false;
         int x = 0;
         int y = 0;
 
         Scanner scanner = new Scanner(System.in);
+
+        System.out.println("-------------");
         System.out.println("Input X , Y :");
         if (scanner.hasNextInt()) {
             x = scanner.nextInt();
-            y =scanner.nextInt();
-        } else {
-            inputError = true;
         }
-        if (inputError) {
+        if (scanner.hasNextInt()) {
+            y = scanner.nextInt();
+            return new Point(x, y);
+        } else {
             System.out.println("The coordinates must be integer!!!");
             return null;
             //  throw new IllegalArgumentException("Point():  The coordinates must be integer!!!");
-        } else {
-            System.out.println();
-            return new Point(x, y);
         }
     }
 
@@ -106,7 +104,7 @@ public class Point {
             return CoordinateQuarter.BOTTOM_LEFT;
     }
 
-    enum CoordinateQuarter {
+    private enum CoordinateQuarter {
         TOP_LEFT,
         TOP_RIGHT,
         BOTTOM_LEFT,

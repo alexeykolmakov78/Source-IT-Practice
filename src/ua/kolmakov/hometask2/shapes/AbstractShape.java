@@ -31,8 +31,6 @@ public abstract class AbstractShape implements Shape {
         this.centerYCoordinate = centerYCoordinate;
     }
 
-    /*Методы , которые изменяют объект должны быть void или возвращать измененый объект? */
-
     public void create() {
         //todo: what the "create()" have to do?
         System.out.println(this);

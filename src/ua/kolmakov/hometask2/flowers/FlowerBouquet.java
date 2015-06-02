@@ -32,8 +32,6 @@ public class FlowerBouquet {
 
     public void show() {
         System.out.println(bouquet.size() + " bouquet");
-        for (Flower flower : bouquet) {
-            System.out.println(flower);
-        }
+        bouquet.forEach(System.out::println);
     }
 }

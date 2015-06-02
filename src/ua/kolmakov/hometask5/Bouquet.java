@@ -1,11 +1,13 @@
 package ua.kolmakov.hometask5;
 
+import ua.kolmakov.hometask2.flowers.Flower;
+
 import java.util.Arrays;
 
 /**
  * Created by Kolmakov Alexey on 25.05.2015.
  * <p>
- * ArrayWrapper
+ * Bouquet
  */
 /*
    1)Создайте класс-обертку для массива, который бы делал:
@@ -18,48 +20,45 @@ import java.util.Arrays;
       - Массив должен быть строго определенного типа,
       для этого создайте иерархию классов по вашему усмотрению и корень вашей иерархии будет типом массива в обертке.
 
-    К примеру: есть базовый обьект Base у которого есть методы: Number getValue(), setValue(Number n),
-    multipleValue(Number n), divValue(Number n), ...
-    Обертка должна использовать определенные в Base методы для вычисления min, max, avg значений.
 */
 
-public class ArrayWrapper {
+public class Bouquet {
     private static final int DEFAULT_SIZE = 5;
     private static final int DEFAULT_RESIZE_STEP = 5;
 
     int resizeStep;
-    private Base[] array;
+    private Flower[] flowers;
     private int lastIndex;
 
-    public ArrayWrapper() {
+    public Bouquet() {
         this(DEFAULT_SIZE, DEFAULT_RESIZE_STEP);
     }
 
-    public ArrayWrapper(int size) {
+    public Bouquet(int size) {
         this(size, DEFAULT_RESIZE_STEP);
     }
 
-    public ArrayWrapper(int size, int resizeStep) {
-        array = new Base[size];
+    public Bouquet(int size, int resizeStep) {
+        flowers = new Flower[size];
         lastIndex = 0;
         this.resizeStep = resizeStep;
     }
 
-    public void add(Base value) {
+    public void add(Flower value) {
         add(value, lastIndex);
     }
 
-    public void add(Base value, int index) {
-        if (lastIndex >= array.length) {
+    public void add(Flower value, int index) {
+        if (lastIndex >= flowers.length) {
             increaseSize();
         }
         if (index >= lastIndex) {
-            array[lastIndex] = value;
+            flowers[lastIndex] = value;
 
-        } else { //if(index < array.length)
+        } else { //if(index < flowers.length)
             // moves all elements that are right-side of the index (including index) on the one position to the right.
-            System.arraycopy(array, index, array, index + 1, lastIndex - index);
-            array[index] = value;
+            System.arraycopy(flowers, index, flowers, index + 1, lastIndex - index);
+            flowers[index] = value;
         }
         lastIndex++;
     }
@@ -71,52 +70,45 @@ public class ArrayWrapper {
     public void remove(int index) {
         lastIndex--;
         if (index >= lastIndex) {
-            array[lastIndex] = null;
-        } else { //if(index > array.length)
+            flowers[lastIndex] = null;
+        } else { //if(index > flowers.length)
             // moves all elements that are right-side of the index on the one position to the left.
-            System.arraycopy(array, index +1, array, index, lastIndex - index);
-            array[lastIndex] = null;
+            System.arraycopy(flowers, index + 1, flowers, index, lastIndex - index);
+            flowers[lastIndex] = null;
         }
-        if (lastIndex <= array.length - resizeStep) {
+        if (lastIndex <= flowers.length - resizeStep) {
             decreaseSize();
         }
     }
 
+    public int totalPrice() {
+        int sum = 0;
+        for (Flower flower : flowers) {
+            if (flower != null) {
+                sum += flower.getPrice();
+            }
+        }
+        return sum;
+    }
+
     @Override
     public String toString() {
-        return "ArrayWrapper{" + Arrays.toString(array) + "} ";
+        return "Bouquet{" + Arrays.toString(flowers) + "} ";
     }
 
     private void increaseSize() {
-        int newSize = array.length + resizeStep;
+        int newSize = flowers.length + resizeStep;
         resize(newSize);
     }
 
     private void decreaseSize() {
-        int newSize = array.length - resizeStep;
+        int newSize = flowers.length - resizeStep;
         resize(newSize);
     }
 
     private void resize(int size) {
-        Base[] newArray = new Base[size];
-        System.arraycopy(array, 0, newArray, 0, lastIndex/*array.length*/);
-        array = newArray;
+        Flower[] newArray = new Flower[size];
+        System.arraycopy(flowers, 0, newArray, 0, lastIndex/*flowers.length*/);
+        flowers = newArray;
     }
-
-    public Number min() {
-        // todo
-        return null;
-    }
-
-    public Number max() {
-        // todo
-        return null;
-    }
-
-    public Number avg() {
-        // todo
-        return null;
-    }
-
-
 }

@@ -5,6 +5,20 @@
     <file url="file://$PROJECT_DIR$/src/ua/kolmakov/lab4/Lab4.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ua/kolmakov/lab4/lab 4.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ua/kolmakov/lab5/lab5.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model/person/Address.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model/person/FullName.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model/person/Person.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model/post/PostOffice.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model/post/Stamp.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model/transport/DeliveryTransport.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/model/transport/Transit.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/service" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/api/service/SenderService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/impl/model/person/BasePerson.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/impl/model/person/CitizenFullName.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/impl/model/person/Sender.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/logistic/impl/service/Storage.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
