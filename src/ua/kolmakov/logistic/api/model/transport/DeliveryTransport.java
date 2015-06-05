@@ -6,6 +6,8 @@ import ua.kolmakov.logistic.api.model.post.PostOffice;
  * Created by Denis on 5/25/2015.
  */
 public interface DeliveryTransport {
+    public  String getId();
+
     public Type getType();
 
     public PostOffice getStartPostOffice();

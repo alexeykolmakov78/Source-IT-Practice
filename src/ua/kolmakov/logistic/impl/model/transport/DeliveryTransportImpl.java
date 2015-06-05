@@ -7,21 +7,25 @@ import ua.kolmakov.logistic.api.model.transport.DeliveryTransport;
  * Created by Kolmakov Alexey on 31.05.2015.
  */
 public class DeliveryTransportImpl implements DeliveryTransport {
-
     private static int idCounter = 0;
 
     private Type type;
     private PostOffice startPostOffice;
     private PostOffice destinationPostOffice;
     private int distance;
-    private int id;
+    private String id;
 
-    public DeliveryTransportImpl( Type type, PostOffice start, PostOffice destination, int distance) {
+    public DeliveryTransportImpl(Type type, PostOffice start, PostOffice destination, int distance) {
         this.type = type;
         this.startPostOffice = start;
         this.destinationPostOffice = destination;
         this.distance = distance;
-        this.id = idCounter++;
+        this.id = "DT_" + idCounter++;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override

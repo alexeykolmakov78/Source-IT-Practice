@@ -1,6 +1,7 @@
 package ua.kolmakov.logistic.impl.model.transport;
 
 import ua.kolmakov.logistic.api.model.post.PostOffice;
+import ua.kolmakov.logistic.api.model.transport.DeliveryTransport;
 import ua.kolmakov.logistic.api.model.transport.Transit;
 
 /**
@@ -9,6 +10,8 @@ import ua.kolmakov.logistic.api.model.transport.Transit;
 public class TransitImpl implements Transit {
 
     private PostOffice[] postOffices;
+  //  private DeliveryTransport[]  deliveryTransports;
+
 
     public TransitImpl(PostOffice[] postOffices) {
         this.postOffices = postOffices;
@@ -16,12 +19,12 @@ public class TransitImpl implements Transit {
 
     @Override
     public PostOffice[] getTransitOffices() {
-        return new PostOffice[0];
+        return postOffices;
     }
 
     @Override
     public double getPrice() {
-//todo
+
         return 0;
     }
 }

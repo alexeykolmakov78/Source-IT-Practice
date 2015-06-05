@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by Denis on 5/25/2015.
  */
 public interface Stamp {
-    public Address getPostOfficeAddress();
 
+    public Address getPostOfficeAddress();
     public Date getStampDate();
 }

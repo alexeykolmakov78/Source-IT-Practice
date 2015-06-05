@@ -1,20 +1,19 @@
 package ua.kolmakov.logistic.impl.model.person;
 
-import ua.kolmakov.logistic.api.model.person.*;
+import ua.kolmakov.logistic.api.model.person.FullName;
 
 /**
  * Created by Kolmakov Alexey on 27.05.2015.
  */
-public class CitizenFullName implements FullName {
-
+public class PersonFullName implements FullName {
     private String firstName;
-    private String lastName;
     private String middleName;
+    private String lastName;
 
-    public CitizenFullName(String firstName, String lastName, String middleName) {
+    public PersonFullName(String firstName, String middleName, String lastName) {
         this.firstName = firstName;
-        this.lastName = lastName;
         this.middleName = middleName;
+        this.lastName = lastName;
     }
 
     @Override
