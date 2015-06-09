@@ -5,18 +5,20 @@ import ua.kolmakov.logistic.api.model.post.Package;
 import ua.kolmakov.logistic.api.model.post.PostOffice;
 import ua.kolmakov.logistic.api.model.transport.Transit;
 
+import java.util.List;
+
 /**
  * Created by Denis on 5/25/2015.
  */
 public interface SenderService {
-    public PostOffice[] getAllOffices();
+    List<PostOffice> getAllOffices();
 
-    public Transit[] calculatePossibleTransits(Package parcel, PostOffice senderOffice, PostOffice destinationOffice);
+    Transit[] calculatePossibleTransits(Package parcel, PostOffice senderOffice, PostOffice destinationOffice);
 
-    public boolean sendPackage(Package parcel, Transit transit);
+    boolean sendPackage(Package parcel, Transit transit);
 
-    public PostOffice getPackageCurrentPosition(String id);
+    PostOffice getPackageCurrentPosition(Package parcel);
 
-    public double getMilesToDestination(String id);
+    double getMilesToDestination(Package parcel);
 
 }

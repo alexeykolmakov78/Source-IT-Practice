@@ -48,4 +48,27 @@ public class PostAddress implements Address {
                 ", code=" + code +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PostAddress that = (PostAddress) o;
+
+        if (code != that.code) return false;
+        if (street != null ? !street.equals(that.street) : that.street != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        return !(country != null ? !country.equals(that.country) : that.country != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = street != null ? street.hashCode() : 0;
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + code;
+        return result;
+    }
 }

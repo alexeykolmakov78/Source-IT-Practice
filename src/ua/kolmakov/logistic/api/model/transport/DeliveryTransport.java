@@ -6,13 +6,15 @@ import ua.kolmakov.logistic.api.model.post.PostOffice;
  * Created by Denis on 5/25/2015.
  */
 public interface DeliveryTransport {
-    public  String getId();
+    public String getId();
 
     public Type getType();
 
     public PostOffice getStartPostOffice();
 
     public PostOffice getDestinationPostOffice();
+
+    double getPrice();
 
     public static enum Type {
         SEA(10, 2.5), AIR(50, 25.2), LAND(18, 1.26);
@@ -27,6 +29,10 @@ public interface DeliveryTransport {
 
         public int getSpeed() {
             return speed;
+        }
+
+        public double getCostPerMile() {
+            return costPerMile;
         }
     }
 }

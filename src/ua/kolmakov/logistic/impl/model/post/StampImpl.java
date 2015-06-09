@@ -27,4 +27,12 @@ public class StampImpl implements Stamp {
     public Date getStampDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        return "Stamp{" +
+                "addr=" + address +
+                ", date=" + date +
+                "}\n";
+    }
 }

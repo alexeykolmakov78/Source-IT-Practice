@@ -4,6 +4,8 @@ import ua.kolmakov.logistic.api.model.person.Address;
 import ua.kolmakov.logistic.api.model.person.FullName;
 import ua.kolmakov.logistic.api.model.post.Package;
 import ua.kolmakov.logistic.api.model.post.Stamp;
+import ua.kolmakov.logistic.api.model.transport.Transit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,9 @@ public class PackageImpl implements Package {
     private int weight;
     private List<Stamp> stamps;
 
+    private Status status;
+    private Transit transit;
+
     public PackageImpl(Address senderAddress, FullName senderFullName, Address receiverAddress, FullName receiverFullName,
                        Type packageType, int weight) {
         this.packageId = "pac_" + idCounter;
@@ -32,6 +37,9 @@ public class PackageImpl implements Package {
         this.packageType = packageType;
         this.weight = weight;
         this.stamps = new ArrayList<>();
+
+        this.status = Status.READY;
+        //this.transit = null;
     }
 
     @Override
@@ -67,6 +75,31 @@ public class PackageImpl implements Package {
     @Override
     public FullName getReceiverFullName() {
         return receiverFullName;
+    }
+
+    @Override
+    public Status getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @Override
+    public Transit getTransit() {
+        return transit;
+    }
+
+    @Override
+    public void setTransit(Transit transit) {
+        this.transit = transit;
+    }
+
+    @Override
+    public List<Stamp> getStamps() {
+        return stamps;
     }
 
     @Override

@@ -24,8 +24,8 @@ public class PostOfficeImpl implements PostOffice {
     private final int maxWeight;
     private final Point location;
 
-    public PostOfficeImpl(Package.Type[] acceptablePackageTypes,  Address address, int maxWeight,
-                         Point location) {
+    public PostOfficeImpl(Package.Type[] acceptablePackageTypes, Address address, int maxWeight,
+                          Point location) {
         this.id = "PO_" + idCounter++;
         this.acceptablePackageTypes = acceptablePackageTypes;
         this.address = address;
@@ -37,6 +37,7 @@ public class PostOfficeImpl implements PostOffice {
     public Stamp getStamp() {
         return new StampImpl(this.address);
     }
+
     @Override
     public Address getAddress() {
         return address;
@@ -54,26 +55,24 @@ public class PostOfficeImpl implements PostOffice {
 
     @Override
     public boolean sendPackage(Package parcel) {
-        if (forceMajeure()) {
-            return false;
-        } else {
             parcel.addStamp(this.getStamp());
             return true;
-        }
     }
 
     private boolean forceMajeure() {
         Random rnd = new Random();
-        return (rnd.nextInt(13)==13);
+        return (rnd.nextInt(1000) == 13);
+//        return false;
     }
 
     @Override
     public boolean receivePackage(Package parcel) {
-        if (forceMajeure()) {
-            return false;
-        } else {
-            return true;
-        }
+//        if (forceMajeure()) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+        return true;
     }
 
     @Override
@@ -94,7 +93,7 @@ public class PostOfficeImpl implements PostOffice {
 
     @Override
     public String toString() {
-        return "PO{" +
+        return "\nPO{" +
                 "address=" + address +
                 ",maxWeight=" + maxWeight +
                 ",location=" + location.getX() + "," + location.getY() +

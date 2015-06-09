@@ -3,28 +3,40 @@ package ua.kolmakov.logistic.impl.model.transport;
 import ua.kolmakov.logistic.api.model.post.PostOffice;
 import ua.kolmakov.logistic.api.model.transport.DeliveryTransport;
 import ua.kolmakov.logistic.api.model.transport.Transit;
+import ua.kolmakov.logistic.impl.service.Storage;
+
+import java.util.List;
 
 /**
  * Created by Kolmakov Alexey on 31.05.2015.
  */
 public class TransitImpl implements Transit {
 
-    private PostOffice[] postOffices;
-  //  private DeliveryTransport[]  deliveryTransports;
+    private List<PostOffice> postOffices;//transit post offices
+    private List<DeliveryTransport> deliveryTransports;//transit delivery transports
 
-
-    public TransitImpl(PostOffice[] postOffices) {
+    public TransitImpl(List<PostOffice> postOffices) {
         this.postOffices = postOffices;
+        // здесь deliveryTransports нужно задавать в конструкторе, а postOffices вычислять в методе getTransitOffices()
+        deliveryTransports = Storage.getInstance().getById("deliveryTransports");
     }
 
     @Override
-    public PostOffice[] getTransitOffices() {
+    public List<PostOffice> getTransitOffices() {
         return postOffices;
     }
 
     @Override
-    public double getPrice() {
+    public List<DeliveryTransport> getTransitDeliveryTransports() {
+        return deliveryTransports;
+    }
 
-        return 0;
+    @Override
+    public double getPrice() {
+        double price = 0;
+        for (DeliveryTransport dt : deliveryTransports) {
+            price += dt.getPrice();
+        }
+        return price;
     }
 }
