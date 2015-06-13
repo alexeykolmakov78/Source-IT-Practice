@@ -15,10 +15,8 @@ import ua.kolmakov.logistic.impl.service.Storage;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
-/**
- * Created by Kolmakov Alexey on 31.05.2015.
- */
 public class StartLogistic {
     public static void main(String[] args) {
 
@@ -45,7 +43,7 @@ public class StartLogistic {
         // здесь вставить выбор варианта транзита
         Transit transit = transitVariants[0];
         parcel.setTransit(transit);
-        System.out.println("Miles to destination before sending: " + service.getMilesToDestination(parcel));
+        System.out.println("Miles to destination (at the start point): " + service.getMilesToDestination(parcel));
         System.out.println();
         System.out.println("Current position (start): " + service.getPackageCurrentPosition(parcel));
         service.sendPackage(parcel, transit);
@@ -56,8 +54,7 @@ public class StartLogistic {
         System.out.println();
         System.out.println("All transit post offices (Stamps): \n" + parcel.getStamps());
 
-        System.out.println("Miles to destination after sending: " + service.getMilesToDestination(parcel));
-
+        System.out.println("Miles to destination (at the destination point): " + service.getMilesToDestination(parcel));
 
     }
 
