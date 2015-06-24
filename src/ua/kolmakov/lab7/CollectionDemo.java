@@ -32,7 +32,7 @@ public class CollectionDemo {
         }
         System.out.println(list);
 
-     //2)
+        //2)
         MyStack stack = new MyStack();
 
         stack.push(1);
@@ -40,10 +40,11 @@ public class CollectionDemo {
         stack.push(3);
         stack.push(4);
         stack.push(5);
-        System.out.println( stack);
+        System.out.println(stack);
+        System.out.println(stack.pop().toString() + ' ');
         stack.pop();
         stack.pop();
-        System.out.println( stack);
+        System.out.println(stack);
     }
 
     private static void fill(List list, int number) {
@@ -64,7 +65,6 @@ public class CollectionDemo {
         }
         return result;
     }
-
 
 
 }

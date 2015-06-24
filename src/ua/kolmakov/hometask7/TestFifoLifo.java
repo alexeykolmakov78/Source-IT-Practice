@@ -8,7 +8,7 @@ import java.util.ListIterator;
 
 //  Создать 2 класса - для очередей типа FIFO и LIFO реализовав Queue. Создать программу для его тестирования (class with spvm)
 
-public class TestQueue {
+public class TestFifoLifo {
     public static void main(String[] args) {
 
         System.out.println("Create FIFO on 5 elements");
@@ -54,15 +54,8 @@ public class TestQueue {
             System.out.println(e.toString());
         }
 
-        System.out.println("FIFO ListIterator try to next() element " +listIterator.next()+"  "+ fifo);
+        System.out.println("FIFO ListIterator try to next() element " + listIterator.next() + "  " + fifo);
         System.out.println("???????????????????????????????????????????????????????????????????????");
-
-
-
-
-
-
-
 
         System.out.println("=======================================================================");
         System.out.println("Create LIFO on 5 elements");
@@ -97,9 +90,5 @@ public class TestQueue {
         } catch (UnsupportedOperationException e) {
             System.out.println(e.toString());
         }
-
-
     }
-
-
 }
