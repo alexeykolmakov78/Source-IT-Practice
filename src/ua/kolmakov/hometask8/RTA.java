@@ -9,9 +9,9 @@ public class RTA {
     private Date date;
     private int code;
 
-   public RTA(Date date, int code) {
-       this.date = date;
-       this.code = code;
+    public RTA(Date date, int code) {
+        this.date = date;
+        this.code = code;
     }
 
     @Override

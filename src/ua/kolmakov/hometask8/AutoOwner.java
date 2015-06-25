@@ -26,19 +26,19 @@ import java.util.List;
 //и) вывод информации о всех автовладельцах, которые управляли транспортом в нетрезвом виде;
 //к) вывод информации о всех транспортных средствах, участвовавших в ДТП.
 
-public class Driver {
+public class AutoOwner {
     private Passport passport;
     private Licence licence;
     private List<Vehicle> vehicles;
     private List<Offence> offences;
 
-    private Driver() {
+    private AutoOwner() {
         vehicles = new ArrayList<>();
         offences = new ArrayList<>();
     }
 
     public static Builder newBuilder(){
-        return new Driver().new Builder();
+        return new AutoOwner().new Builder();
     }
 
     public Passport getPassport() {
@@ -60,32 +60,32 @@ public class Driver {
     public void addVehicle(Vehicle vehicle) {
         vehicles.add(vehicle);
     }
+
     public void addOffence(Offence offence) {
         offences.add(offence);
     }
 
     public class Builder {
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder setPassport(Passport passport) {
-            Driver.this.passport = passport;
+            AutoOwner.this.passport = passport;
             return this;
         }
 
         public Builder setLicence(Licence licence) {
-            Driver.this.licence = licence;
+            AutoOwner.this.licence = licence;
             return this;
         }
 
-        public Driver build(){
-            return Driver.this;
+        public AutoOwner build(){
+            return AutoOwner.this;
         }
     }
 
     @Override
     public String toString() {
-        return "Driver{" +
+        return "\nDRIVER{" +
                 "\npassport=" + passport +
                 "\nlicence=" + licence +
                 "\nvehicles=" + vehicles +

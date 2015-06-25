@@ -14,239 +14,241 @@ public class TestDataStorage {
     public static AutoDataStorage storage = AutoDataStorage.getInstance();
 
     public static void main(String[] args) {
-        initDrivers();
-        initVehicles();
-        System.out.println(storage);
+        Initializer.initAutoOwners();
+        Initializer.initVehicles();
+        // System.out.println(storage);
+        //д) вывод информации о всех транспортных средствах (ФИО владельца в том числе);
+        System.out.println("\nThe list of the vehicles:\n");
+        System.out.println(storage.getAllVehicles());
+        System.out.println("#################################################################################");
+        //е) поиск информации о транспортных средствах, зарегистрированных на данного автовладельца (поиск осуществлять по фамилии);
+        System.out.println("\nThe list of the vehicles which owner last name is  \"Jones\":\n");
+        System.out.println(storage.getVehiclesByOwnerLastName("Jones"));
+        System.out.println("#################################################################################");
+        //ж) поиск информации о владельце по части номерного знака;
+        System.out.println("\nThe list of the owners the vehicles which registration numbers contains \"000\":\n");
+        System.out.println(storage.getAutoOwnersByPartOfRegistrationNumber("000"));
+        System.out.println("#################################################################################");
+        //з) вывод информации о всех транспортных средствах, вовремя не прошедших ТО;
+        System.out.println("\nThe list of the vehicles which had no service more than 2 years:\n");
+        System.out.println(storage.getNotServicedInTimeVehicles(2));
+        System.out.println("#################################################################################");
+        //и) вывод информации о всех автовладельцах, которые управляли транспортом в нетрезвом виде;
+        System.out.println("\nThe list of the auto owners which had been caught drunk:\n");
+        System.out.println(storage.getDrinkingAutoOwners());
+        System.out.println("#################################################################################");
+        //к) вывод информации о всех транспортных средствах, участвовавших в ДТП.
+        System.out.println("\nThe list of the vehicles which were participants of RTA:\n");
+        System.out.println(storage.getVehiclesRTAParticipants());
+        System.out.println("#################################################################################");
     }
 
-    static void initDrivers() {
-//Driver
-        String firstName, lastName, middleName;
-        Date dateOfBirth;
-        Passport passport;
-        Licence licence;
-        List<Vehicle> vehicles;
-        List<Offence> offences;
+    private static class Initializer {
+        static void initAutoOwners() {
+//AutoOwner
+            String firstName, lastName, middleName;
+            Date dateOfBirth;
+            Passport passport;
+            Licence licence;
 //Passport
-        String passportID;
-        Date passportRegistrationDate;
-        String passportRegisteredBy;
-        Address address;
+            String passportID;
+            Date passportRegistrationDate;
+            String passportRegisteredBy;
+            Address address;
 //Licence
-        String licenceID;
-        Licence.Category category;
-        Date licenceRegistrationDate;
-        String licenceRegisteredBy;
+            String licenceID;
+            Licence.Category category;
+            Date licenceRegistrationDate;
+            String licenceRegisteredBy;
 
-// Preparing data for creating 10 Drivers.
-        List<String> firstNames = new ArrayList<>(Arrays.asList(new String[]{
-                "John", "John", "William", "Jack", "Andrew", "Robert", "Anthony", "Samantha", "Julia", "Helen"}));
-        List<String> lastNames = new ArrayList<>(Arrays.asList(new String[]{
-                "Smith", "Wilson", "Brown", "Grady", "Roberts", "Jones", "Lee", "Stuart", "Postman", "Franny"}));
-        List<String> middleNames = new ArrayList<>(Arrays.asList(new String[]{
-                "Steven", "Martin", "Jan", "John", "Robin", "Bob", "Mathew", "Patric", "Smith", "Ted"}));
+// Preparing data for creating 10 autoOwners.
+            List<String> firstNames = new ArrayList<>(Arrays.asList(new String[]{
+                    "John", "John", "William", "Jack", "Andrew", "Robert", "Anthony", "Samantha", "Julia", "Helen"}));
+            List<String> lastNames = new ArrayList<>(Arrays.asList(new String[]{
+                    "Smith", "Wilson", "Brown", "Grady", "Roberts", "Jones", "Lee", "Stuart", "Postman", "Franny"}));
+            List<String> middleNames = new ArrayList<>(Arrays.asList(new String[]{
+                    "Steven", "Martin", "Jan", "John", "Robin", "Bob", "Mathew", "Patric", "Smith", "Ted"}));
 
-        List<Address> addresses = new ArrayList<>();
-        addresses.add(new PostAddress(34634, "USA", "New York", "10th st"));
-        addresses.add(new PostAddress(25482, "USA", "San Francisco", "Evance ave"));
-        addresses.add(new PostAddress(78682, "USA", "Los Angeles", "Beach ave"));
-        addresses.add(new PostAddress(53734, "USA", "New York", "Grand st"));
-        addresses.add(new PostAddress(27782, "USA", "New York", "56th st"));
-        addresses.add(new PostAddress(27852, "USA", "San Francisco", "Paris st"));
-        addresses.add(new PostAddress(56834, "USA", "San Francisco", "Mission st"));
-        addresses.add(new PostAddress(25482, "USA", "Los Angeles", "S Broadway"));
-        addresses.add(new PostAddress(36985, "USA", "Los Angeles", "50 street"));
-        addresses.add(new PostAddress(88596, "USA", "Las Vegas", "E Vegas Valley dr"));
-        addresses.add(new PostAddress(58624, "USA", "Las Vegas", "E Sahara ave"));
+            List<Address> addresses = new ArrayList<>();
+            addresses.add(new PostAddress(34634, "USA", "New York", "10th st"));
+            addresses.add(new PostAddress(25482, "USA", "San Francisco", "Evance ave"));
+            addresses.add(new PostAddress(78682, "USA", "Los Angeles", "Beach ave"));
+            addresses.add(new PostAddress(53734, "USA", "New York", "Grand st"));
+            addresses.add(new PostAddress(27782, "USA", "New York", "56th st"));
+            addresses.add(new PostAddress(27852, "USA", "San Francisco", "Paris st"));
+            addresses.add(new PostAddress(56834, "USA", "San Francisco", "Mission st"));
+            addresses.add(new PostAddress(25482, "USA", "Los Angeles", "S Broadway"));
+            addresses.add(new PostAddress(36985, "USA", "Los Angeles", "50 street"));
+            addresses.add(new PostAddress(88596, "USA", "Las Vegas", "E Vegas Valley dr"));
+            addresses.add(new PostAddress(58624, "USA", "Las Vegas", "E Sahara ave"));
 
-        List<Date> datesOfBirth = new ArrayList<>();
-        datesOfBirth.add(new Date(78, 1, 9));
-        datesOfBirth.add(new Date(65, 2, 4));
-        datesOfBirth.add(new Date(89, 9, 25));
-        datesOfBirth.add(new Date(76, 11, 13));
-        datesOfBirth.add(new Date(97, 8, 17));
-        datesOfBirth.add(new Date(88, 4, 21));
-        datesOfBirth.add(new Date(86, 4, 9));
-        datesOfBirth.add(new Date(77, 5, 4));
-        datesOfBirth.add(new Date(94, 8, 7));
-        datesOfBirth.add(new Date(92, 8, 28));
+            List<Date> datesOfBirth = new ArrayList<>();
+            datesOfBirth.add(new Date(78, 1, 9));
+            datesOfBirth.add(new Date(65, 2, 4));
+            datesOfBirth.add(new Date(89, 9, 25));
+            datesOfBirth.add(new Date(76, 11, 13));
+            datesOfBirth.add(new Date(97, 8, 17));
+            datesOfBirth.add(new Date(88, 4, 21));
+            datesOfBirth.add(new Date(86, 4, 9));
+            datesOfBirth.add(new Date(77, 5, 4));
+            datesOfBirth.add(new Date(94, 8, 7));
+            datesOfBirth.add(new Date(92, 8, 28));
 
-        List<String> passportIDs = (Arrays.asList("qw123456", "rt869656", "gy870568", "ck5490884", "nd936759",
-                "er342652", "gh192023", "br372838", "pu968585", "bl795865"));
+            List<String> passportIDs = (Arrays.asList("qw123456", "rt869656", "gy870568", "ck5490884", "nd936759",
+                    "er342652", "gh192023", "br372838", "pu968585", "bl795865"));
 
-        // The list of passport registration dates and the list of licence registration dates
-        // are based on the list of the dates of birth.
-        List<Date> passportRegistrationDates = new ArrayList<>();
-        List<Date> licenceRegistrationDates = new ArrayList<>();
-        for (Iterator<Date> i = datesOfBirth.iterator(); i.hasNext(); ) {
-            Date date = i.next();
-            Date passRegDate = new Date(date.getDate());
-            passRegDate.setYear(date.getYear() + 16);
-            passportRegistrationDates.add(passRegDate);
-            Date licenceRegDate = new Date(date.getDate());
-            licenceRegDate.setYear(date.getYear() + 18);
-            licenceRegistrationDates.add(licenceRegDate);
+            // The list of passport registration dates and the list of licence registration dates
+            // are based on the list of the dates of birth.
+            List<Date> passportRegistrationDates = new ArrayList<>();
+            List<Date> licenceRegistrationDates = new ArrayList<>();
+            for (Iterator<Date> i = datesOfBirth.iterator(); i.hasNext(); ) {
+                Date date = i.next();
+                Date passRegDate = new Date(date.getDate());
+                passRegDate.setYear(date.getYear() + 16);
+                passportRegistrationDates.add(passRegDate);
+                Date licenceRegDate = new Date(date.getDate());
+                licenceRegDate.setYear(date.getYear() + 18);
+                licenceRegistrationDates.add(licenceRegDate);
+            }
+            //Passports are registered in the police departments. ()
+            List<String> policeDepartments = (Arrays.asList("Police Department #42", "Police Department #154",
+                    "Police Department #4", "Police Department #72", "Police Department #44",
+                    "Police Department #13", "Police Department #58", "Police Department #49",
+                    "Police Department #13", "Police Department #55"));
+
+            //List of licence departments is based on the list of police departments.
+            List<String> licenceDepartments = policeDepartments
+                    .stream()
+                    .map(each -> each.replace("Police", "Licence"))
+                    .collect(Collectors.toList());
+
+            //List of licence IDs is based on the list of passport IDs.
+            List<String> licenceIDs = passportIDs
+                    .stream()
+                    .map(id -> "l".concat(id))
+                    .collect(Collectors.toList());
+
+            List<Licence.Category> licenceCategories = new ArrayList<>(Arrays.asList(new Licence.Category[]{
+                    Licence.Category.B, Licence.Category.C, Licence.Category.B, Licence.Category.D, Licence.Category.B,
+                    Licence.Category.B, Licence.Category.B, Licence.Category.A, Licence.Category.B, Licence.Category.C,}));
+
+            // create 10 drives
+            Set<AutoOwner> autoOwners = new HashSet<>();
+            for (int i = 0; i < 10; i++) {
+                firstName = firstNames.get(i);
+                lastName = lastNames.get(i);
+                middleName = middleNames.get(i);
+                address = addresses.get(i);
+
+                dateOfBirth = datesOfBirth.get(i);
+                passportID = passportIDs.get(i);
+                passportRegistrationDate = passportRegistrationDates.get(i);
+                passportRegisteredBy = policeDepartments.get(i);
+                passport = new Passport(firstName, lastName, middleName, dateOfBirth, passportID,
+                        passportRegistrationDate, passportRegisteredBy, address);
+
+                licenceID = licenceIDs.get(i);
+                category = licenceCategories.get(i);
+                licenceRegistrationDate = licenceRegistrationDates.get(i);
+                licenceRegisteredBy = licenceDepartments.get(i);
+                licence = new Licence(licenceID, category, licenceRegistrationDate, licenceRegisteredBy, address);
+
+                AutoOwner autoOwner = AutoOwner.newBuilder()
+                        .setPassport(passport)
+                        .setLicence(licence)
+                        .build();
+                autoOwners.add(autoOwner);
+
+
+            }
+            storage.putToStorage("autoOwners", autoOwners);
+            AutoOwner drunkard = getByLastName("Brown");
+            drunkard.addOffence( new Offence(randomDate(2013, 2014),Offence.Type.DRUNK));
         }
-        //Passports are registered in the police departments. ()
-        List<String> policeDepartments = (Arrays.asList("Police Department #42", "Police Department #154",
-                "Police Department #4", "Police Department #72", "Police Department #44",
-                "Police Department #13", "Police Department #58", "Police Department #49",
-                "Police Department #13", "Police Department #55"));
 
-        //List of licence departments is based on the list of police departments.
-        List<String> licenceDepartments = policeDepartments
-                .stream()
-                .map(each -> each.replace("Police", "Licence"))
-                .collect(Collectors.toList());
+        static void initVehicles() {
+            // preparing data for 14 vehicles
+            List<String> brands = new ArrayList<>(Arrays.asList(new String[]{
+                    "Toyota", "BMW", "Mercedes", "Audi", "Toyota", "Toyota", "Lexus",
+                    "Ford", "BMW", "Mercedes", "Audi", "Toyota", "Toyota", "Lexus"}));
+            List<String> models = new ArrayList<>(Arrays.asList(new String[]{
+                    "Camry", "X6", "GL350", "R8", "Land Cruiser 200", "Rav 4", "GS 350",
+                    "Cuga", "650", "SLK 700", "TT", "Corolla", "Corolla", "LS 450"}));
+            List<String> registrationNumbers = new ArrayList<>(Arrays.asList(new String[]{
+                    "as78098", "000001", "SHURA", "888888", "aa2000", "fr478596", "ii0008",
+                    "u589658", "456789", "SLK 700", "444444", "gt896422", "ws789654", "oo9999"}));
 
-        //List of licence IDs is based on the list of passport IDs.
-        List<String> licenceIDs = passportIDs
-                .stream()
-                .map(id -> "l".concat(id))
-                .collect(Collectors.toList());
+            List<Date> productionDates = new ArrayList<>();
+            for (int i = 0; i < 14; i++) {
+                productionDates.add(randomDate(2004, 2012));
+            }
 
-        List<Licence.Category> licenceCategories = new ArrayList<>(Arrays.asList(new Licence.Category[]{
-                Licence.Category.B, Licence.Category.C, Licence.Category.B, Licence.Category.D, Licence.Category.B,
-                Licence.Category.B, Licence.Category.B, Licence.Category.A, Licence.Category.B, Licence.Category.C,}));
-//        System.out.println("passportIDs  " + passportIDs);
-//        System.out.println("licenceIDs  " + licenceIDs);
-//        System.out.println("--------------------------------------");
-//        System.out.println("datesOfBirth  " + datesOfBirth);
-//        System.out.println("passportRegistrationDates  " + passportRegistrationDates);
-//        System.out.println("licenceRegistrationDates  " + licenceRegistrationDates);
-//
-//        System.out.println("--------------------------------------");
-//        System.out.println("policeDepartments  " + policeDepartments);
-//        System.out.println("licenceDepartments  " + licenceDepartments);
-        ;
-        // -------------------------------------------------------------------------------
-        Set<Driver> drivers = new HashSet<>();
-        ;
-        for (int i = 0; i < 10; i++) {
-            firstName = firstNames.get(i);
-            lastName = lastNames.get(i);
-            middleName = middleNames.get(i);
-            address = addresses.get(i);
+            List<Date> lastServiceDates = new ArrayList<>();
+            for (int i = 0; i < brands.size(); i++) {
+                lastServiceDates.add(randomDate(2012, 2014));
+            }
 
-            dateOfBirth = datesOfBirth.get(i);
-            passportID = passportIDs.get(i);
-            passportRegistrationDate = passportRegistrationDates.get(i);
-            passportRegisteredBy = policeDepartments.get(i);
-            passport = new Passport(firstName, lastName, middleName, dateOfBirth, passportID,
-                    passportRegistrationDate, passportRegisteredBy, address);
+            // make some accidents...
+            List<RTA> rtaList = new ArrayList<>();
+            for (int i = 0; i < 14; i++) {
+                rtaList.add(null);
+            }
+            rtaList.set(2, new RTA(randomDate(2004, 2014), 88));
+            rtaList.set(6, new RTA(randomDate(2004, 2014), 88));
+            rtaList.set(7, new RTA(randomDate(2004, 2014), 10000));
+            rtaList.set(10, new RTA(randomDate(2004, 2014), 20000));
+            rtaList.set(12, new RTA(randomDate(2004, 2014), 555555));
+            //
+            List<String> ownersLastNames = new ArrayList<>(Arrays.asList(new String[]{
+                    "Smith", "Smith", "Wilson", "Brown", "Grady", "Roberts", "Jones",
+                    "Lee", "Stuart", "Postman", "Franny", "Smith", "Jones", "Roberts"}));
 
-            licenceID = licenceIDs.get(i);
-            category = licenceCategories.get(i);
-            licenceRegistrationDate = licenceRegistrationDates.get(i);
-            licenceRegisteredBy = licenceDepartments.get(i);
-            licence = new Licence(licenceID, category, licenceRegistrationDate, licenceRegisteredBy, address);
+            //create 14 Vehicles..
+            Set<Vehicle> vehicles = new HashSet<>();
+            for (int i = 0; i < 14; i++) {
+                Vehicle vehicle = Vehicle.newBuilder()
+                        .setBrand(brands.get(i))
+                        .setModel(models.get(i))
+                        .setOwner(getByLastName(ownersLastNames.get(i)))
+                        .setProductionDate(productionDates.get(i))
+                        .setLastServiceDate(lastServiceDates.get(i))
+                        .setRegistrationNumber(registrationNumbers.get(i))
+                        .build();
 
-            vehicles = new ArrayList<>();
-            offences = new ArrayList<>();
+                if (rtaList.get(i) != null) {
+                    vehicle.addRTA(rtaList.get(i));
+                }
 
+                vehicles.add(vehicle);
 
-            Driver driver = Driver.newBuilder()
-                    .setPassport(passport)
-                    .setLicence(licence)
-//                    .setVehicles(vehicles)
-//                    .setOffences(offences)
-                    .build();
+                //add all vehicles to the corresponding owners vehicles lists.
+                HashSet<AutoOwner> autoOwners = storage.getById("autoOwners");
+                autoOwners.stream()
+                        .filter(d -> d == vehicle.getOwner())
+                        .forEach(d -> d.addVehicle(vehicle));
 
-
-            drivers.add(driver);
-//            storage.addDriver(driver);
+                storage.putToStorage("vehicles", vehicles);
+            }
         }
-        storage.putToStorage("drivers", drivers);
+
+        private static Date randomDate(int fromYear, int toYear) {
+            Random rnd = new Random();
+
+            int year = rnd.nextInt(toYear - fromYear) + fromYear - 1900;
+            int month = rnd.nextInt(11) + 1;
+            int day = rnd.nextInt(27) + 1;
+            return new Date(year, month, day);
+        }
+
+        //можно реализовать этот метод в AutoDataStorage
+        private static AutoOwner getByLastName(String lastName) {
+            Set<AutoOwner> autoOwners = storage.getById("autoOwners");
+            return autoOwners.stream()
+                    .filter(ln -> lastName .equals(ln.getPassport().getLastName()))
+                    .findAny().get();
+        }
 
     }
-
-    //--------------------------------------------------------------------------------
-    static void initVehicles() {
-        String brand, model, registrationNumber;
-        Date productionDate;
-        Date lastServiceDate;
-        List<RTA> accidents;
-        Driver owner;
-
-        List<String> brands = new ArrayList<>(Arrays.asList(new String[]{
-                "Toyota", "BMW", "Mercedes", "Audi", "Toyota", "Toyota", "Lexus",
-                "Ford", "BMW", "Mercedes", "Audi", "Toyota", "Toyota", "Lexus"}));
-        List<String> models = new ArrayList<>(Arrays.asList(new String[]{
-                "Camry", "X6", "GL350", "R8", "Land Cruiser 200", "Rav 4", "GS 350",
-                "Cuga", "650", "SLK 700", "TT", "Corolla", "Corolla", "LS 450"}));
-        List<String> registrationNumbers = new ArrayList<>(Arrays.asList(new String[]{
-                "as78098", "000001", "SHURA", "888888", "aa2000", "fr478596", "ii0008",
-                "u589658", "456789", "SLK 700", "444444", "gt896422", "ws789654", "oo9999"}));
-
-        List<Date> productionDates = new ArrayList<>();
-        for (int i = 0; i < 14; i++) {
-            productionDates.add(randomDate(2004, 2014));
-        }
-
-        List<Date> lastServiceDates = new ArrayList<>();
-        for (int i = 0; i < brands.size(); i++) {
-            lastServiceDates.add(randomDate(2012, 2014));
-        }
-
-        // make some accidents...
-        List<RTA> rtaList = new ArrayList<>();
-        for (int i = 0; i < 14; i++) {
-            rtaList.add(null);
-        }
-        rtaList.set(2, new RTA(randomDate(2004, 2014), 88));
-        rtaList.set(6, new RTA(randomDate(2004, 2014), 88));
-        rtaList.set(7, new RTA(randomDate(2004, 2014), 10000));
-        rtaList.set(10, new RTA(randomDate(2004, 2014), 20000));
-        rtaList.set(12, new RTA(randomDate(2004, 2014), 555555));
-
-
-        List<String> ownersLastNames = new ArrayList<>(Arrays.asList(new String[]{
-                "Smith", "Smith", "Wilson", "Brown", "Grady", "Roberts", "Jones",
-                "Lee", "Stuart", "Postman", "Franny", "Smith", "Jones", "Roberts"}));
-
-        //--------------------------------------------------------------------------------
-        Set<Vehicle> vehicles = new HashSet<>();
-        for (int i = 0; i < 14; i++) {
-            Vehicle vehicle = Vehicle.newBuilder()
-                    .setBrand(brands.get(i))
-                    .setModel(models.get(i))
-                    .setOwner(getByLastName(ownersLastNames.get(i)))
-                    .setProductionDate(productionDates.get(i))
-                    .setLastServiceDate(lastServiceDates.get(i))
-                    .setRegistrationNumber(registrationNumbers.get(i))
-                    .build();
-
-            vehicle.addRTA(rtaList.get(i));
-            vehicles.add(vehicle);
-
-            HashSet<Driver> drivers = storage.getById("drivers");
-            drivers.stream()
-                    .filter(d -> d == vehicle.getOwner())
-                    .forEach(d -> d.addVehicle(vehicle));
-
-            storage.putToStorage("vehicles", vehicles);
-        }
-
-
-    }
-
-    private static Date randomDate(int fromYear, int toYear) {
-        Random rnd = new Random();
-
-        int year = rnd.nextInt(toYear - fromYear) + fromYear - 1900;
-        int month = rnd.nextInt(11) + 1;
-        int day = rnd.nextInt(27) + 1;
-        return new Date(year, month, day);
-    }
-
-    // реализовать этот метод в AutoDataStorage
-    private static Driver getByLastName(String lastName) {
-        Set<Driver> drivers = storage.getById("drivers");
-        return drivers.stream()
-                .filter(ln -> lastName == ln.getPassport().getLastName())
-                .findAny().get();
-    }
-
 
 }
 

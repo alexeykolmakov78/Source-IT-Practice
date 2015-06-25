@@ -12,7 +12,6 @@ public class Passport {
     private String lastName;
     private String middleName;
     private Date dateOfBirth;
-
     private String serialID;
     private Date registrationDate;
     private String registeredBy;
@@ -28,6 +27,14 @@ public class Passport {
         this.registrationDate = issueDate;
         this.registeredBy = issuedBy;
         this.address = address;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
     }
 
     public String getLastName() {

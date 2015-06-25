@@ -8,13 +8,14 @@ import java.util.List;
  * Created by Kolmakov Alexey on 16.06.2015.
  */
 public class Vehicle {
+
     private String brand;
     private String model;
     private String registrationNumber;
     private Date productionDate;
     private Date lastServiceDate;
     private List<RTA> rtaList;
-    private Driver owner;
+    private AutoOwner owner;
 
     private Vehicle() {
         rtaList = new ArrayList<>();
@@ -24,8 +25,32 @@ public class Vehicle {
         return new Vehicle().new Builder();
     }
 
-    public Driver getOwner() {
+    public AutoOwner getOwner() {
         return owner;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public Date getProductionDate() {
+        return productionDate;
+    }
+
+    public Date getLastServiceDate() {
+        return lastServiceDate;
+    }
+
+    public List<RTA> getRtaList() {
+        return rtaList;
     }
 
     public void addRTA(RTA rta) {
@@ -58,7 +83,7 @@ public class Vehicle {
             return this;
         }
 
-        public Builder setOwner(Driver owner) {
+        public Builder setOwner(AutoOwner owner) {
             Vehicle.this.owner = owner;
             return this;
         }
@@ -70,14 +95,15 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "\nbrand: " + brand+
+        return "\nVEHICLE{" +
+                "\nbrand: " + brand +
                 "\nmodel: " + model +
-                "\nregistrationNumber: " + registrationNumber+
+                "\nregistrationNumber: " + registrationNumber +
                 "\nproductionDate: " + productionDate +
                 "\nlastServiceDate: " + lastServiceDate +
                 "\nrtaList: " + rtaList +
-                "\nowner: " + owner.getPassport().getLastName() +
-                "}\n";
+                "\nowner: " + owner.getPassport().getFirstName() + " " + owner.getPassport().getMiddleName() +
+                " " + owner.getPassport().getLastName() +
+                "}";
     }
 }
