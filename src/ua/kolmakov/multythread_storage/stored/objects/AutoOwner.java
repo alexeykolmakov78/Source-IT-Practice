@@ -1,4 +1,4 @@
-package ua.kolmakov.hometask8;
+package ua.kolmakov.multythread_storage.stored.objects;
 
 import java.util.ArrayList;
 import java.util.List;

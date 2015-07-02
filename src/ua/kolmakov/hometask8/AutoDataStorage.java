@@ -49,12 +49,6 @@ public class AutoDataStorage implements AutoDataRequests {
                 .filter(v -> v.getRegistrationNumber().contains(numberPart))
                 .map(Vehicle::getOwner)
                 .collect(Collectors.toList());
-        //        for(Vehicle v: vehicles){
-//            if(v.getRegistrationNumber().contains(numberPart)){
-//                drivers.add(v.getOwner());
-//            }
-//
-//        }
     }
 
     @Override

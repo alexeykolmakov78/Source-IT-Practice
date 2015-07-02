@@ -8,6 +8,8 @@ import ua.kolmakov.logistic.impl.model.post.PackageImpl;
 
 /**
  * Created by Kolmakov Alexey on 27.05.2015.
+ * <p>
+ * Sender
  */
 
 public class Sender extends BasePerson {
@@ -23,6 +25,6 @@ public class Sender extends BasePerson {
         FullName receiverName = receiverFullName;
         Package.Type packageType = type;
         int weight = packageWeight;
-        return new PackageImpl(senderAddress,senderName,destinationAddress,receiverName,packageType,packageWeight);
+        return new PackageImpl(senderAddress, senderName, destinationAddress, receiverName, packageType, packageWeight);
     }
 }

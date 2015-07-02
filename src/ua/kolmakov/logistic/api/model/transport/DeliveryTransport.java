@@ -16,6 +16,8 @@ public interface DeliveryTransport {
 
     double getPrice();
 
+    double getDistance();
+
     public static enum Type {
         SEA(10, 2.5), AIR(50, 25.2), LAND(18, 1.26);
 

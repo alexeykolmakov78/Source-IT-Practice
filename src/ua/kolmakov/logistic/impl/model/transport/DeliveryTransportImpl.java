@@ -48,6 +48,11 @@ public class DeliveryTransportImpl implements DeliveryTransport {
         return this.getType().getCostPerMile() * (distance / 1609); //1609 meters per mile
     }
 
+    @Override
+    public double getDistance() {
+        return distance;
+    }
+
 
     @Override
     public String toString() {
