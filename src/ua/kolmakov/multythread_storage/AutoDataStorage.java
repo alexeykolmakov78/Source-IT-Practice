@@ -26,12 +26,12 @@ public class AutoDataStorage implements Storage{
 
     public synchronized void putToStorage(Object key, Object value) {
         while (!access) {
-            System.out.println("STORAGE put can't start");
+            System.out.println("STORAGE \"put\" can't start");
             try {
-                System.out.println("STORAGE put is waiting");
+                System.out.println("STORAGE \"put\" is waiting");
                 wait();
             } catch (InterruptedException e) {
-                System.out.println("STORAGE put interrupted");
+                System.out.println("STORAGE \"put\" interrupted");
             }
         }
         access = false;
@@ -41,12 +41,12 @@ public class AutoDataStorage implements Storage{
 
     public synchronized <T> T getById(Object key) throws ClassCastException {
         while (!access) {
-            System.out.println("STORAGE get can't start");
+            System.out.println("STORAGE \"get\" can't start");
             try {
-                System.out.println("STORAGE get is waiting");
+                System.out.println("STORAGE \"get\" is waiting");
                 wait();
             } catch (InterruptedException e) {
-                System.out.println("STORAGE get interrupted");
+                System.out.println("STORAGE \"get\" interrupted");
             }
         }
         access = false;
@@ -55,64 +55,4 @@ public class AutoDataStorage implements Storage{
         access = true;
         return result;
     }
-
-//    @Override
-//    public Set<Vehicle> getAllVehicles() {
-//        return getById("vehicles");
-//    }
-//
-//    @Override
-//    public List<Vehicle> getVehiclesByOwnerLastName(String lastName) {
-//        Set<Vehicle> vehicles = getById("vehicles");
-//        return vehicles.stream()
-//                .filter(v -> v.getOwner().getPassport().getLastName().equals(lastName))
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public List<AutoOwner> getAutoOwnersByPartOfRegistrationNumber(String numberPart) {
-//        Set<Vehicle> vehicles = getById("vehicles");
-//        return vehicles.stream()
-//                .filter(v -> v.getRegistrationNumber().contains(numberPart))
-//                .map(Vehicle::getOwner)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public List<Vehicle> getNotServicedInTimeVehicles(int yearsBetweenServices) {
-//        Set<Vehicle> vehicles = getById("vehicles");
-//        return vehicles.stream()
-//                .filter(v -> v.getLastServiceDate().getYear() + yearsBetweenServices < new Date().getYear())//max 3 years to next service
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public List<AutoOwner> getDrinkingAutoOwners() {
-//        Set<AutoOwner> autoOwners = getById("autoOwners");
-//        List<AutoOwner> drunken = new ArrayList<>();
-//        for (AutoOwner a : autoOwners) {
-//            drunken.addAll(
-//                    a.getOffences().stream()
-//                            .filter(o -> o.getType() == Offence.Type.DRUNK)
-//                            .map(o -> a)
-//                            .collect(Collectors.toList()));
-//        }
-//        return drunken;
-//    }
-//
-//    @Override
-//    public List<Vehicle> getVehiclesRTAParticipants() {
-//        Set<Vehicle> vehicles = getById("vehicles");
-//        return vehicles.stream()
-//                .filter(v -> v.getRtaList().size() > 0)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "AutoDataStorage{" +
-//                "drivers:" + getById("drivers") +
-//                "\nvehicles:" + getById("vehicles") +
-//                '}';
-//    }
 }

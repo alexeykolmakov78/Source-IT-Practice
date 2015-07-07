@@ -53,7 +53,6 @@ public class DeliveryTransportImpl implements DeliveryTransport {
         return distance;
     }
 
-
     @Override
     public String toString() {
         return "\nDT{" +

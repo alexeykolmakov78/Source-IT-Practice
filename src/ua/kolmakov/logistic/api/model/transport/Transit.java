@@ -9,9 +9,11 @@ import java.util.List;
  */
 public interface Transit {
 
-    public List<PostOffice> getTransitOffices();
+    List<PostOffice> getTransitOffices();
 
     List<DeliveryTransport> getTransitDeliveryTransports();
 
-    public double getPrice();
+    double getPrice();
+
+    double getDistance();
 }

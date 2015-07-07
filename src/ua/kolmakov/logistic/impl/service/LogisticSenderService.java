@@ -23,7 +23,7 @@ import java.util.Random;
  */
 public class LogisticSenderService implements SenderService {
     private static final int NUMBER_OF_OFFICES = 10;
-    private static final int NUMBER_OF_DELIVERY_TRANSPORTS = 15;
+    private static final int NUMBER_OF_DELIVERY_TRANSPORTS = 30;
 
     private Storage storage;
     private Initializer initializer;
@@ -34,8 +34,6 @@ public class LogisticSenderService implements SenderService {
         initializer.initService();
     }
 
-
-
     @Override
     public List<PostOffice> getAllOffices() {
         return storage.getById("postOffices");
@@ -45,9 +43,9 @@ public class LogisticSenderService implements SenderService {
     public Transit[] calculatePossibleTransits(Package parcel, PostOffice senderOffice, PostOffice destinationOffice) {
         Transit[] result = new Transit[2];
         Dijkstra dijkstra = Dijkstra.getDijkstra();
-        dijkstra.search(senderOffice,Dijkstra.SearchParam.COST);
+        dijkstra.search(senderOffice, Dijkstra.SearchParam.COST);
         result[0] = new TransitImpl(dijkstra.getTransit(destinationOffice));
-        dijkstra.search(senderOffice,Dijkstra.SearchParam.DISTANCE);
+        dijkstra.search(senderOffice, Dijkstra.SearchParam.DISTANCE);
         result[1] = new TransitImpl(dijkstra.getTransit(destinationOffice));
         return result;
     }
@@ -109,36 +107,13 @@ public class LogisticSenderService implements SenderService {
         DeliveryTransport currentDT = findCurrentDT(currentPO, parcel);
         List<DeliveryTransport> transitDT = parcel.getTransit().getTransitDeliveryTransports();
         int index = transitDT.indexOf(currentDT);
-        for (int i = index; i < transitDT.size() && index >= 0; i++) {//in case currentDT == null index = -1
-            milesToDest += transitDT.get(i).getDistance();
+        for (int i = index; i < transitDT.size(); i++) {//in case of currentDT == null index = -1
+            if (index >= 0){
+                milesToDest += transitDT.get(i).getDistance();
+            }
         }
         return milesToDest;
     }
-
-//    private Transit shortestTransit(PostOffice senderOffice, PostOffice destinationOffice) {
-//
-//
-//        return null;
-//    }
-
-//    private Transit cheapestTransit(PostOffice senderOffice, PostOffice destinationOffice) {
-//
-//        transitOffices = storage.getById("postOffices");
-//
-//        return new TransitImpl(transitOffices);
-//    }
-
-//
-
-//    private List<PostOffice> relatedPO(PostOffice currentPO) {
-//        List<PostOffice> related = new ArrayList<>();
-//        List<DeliveryTransport> deliveryTransports = storage.getById("deliveryTransports");
-//        related.addAll(deliveryTransports.stream()
-//                .filter(dt -> dt.getStartPostOffice().equals(currentPO))
-//                .map(DeliveryTransport::getDestinationPostOffice)
-//                .collect(Collectors.toList()));
-//        return related;
-//    }
 
     private DeliveryTransport findCurrentDT(PostOffice currentPO, Package parcel) {
         Transit transit = parcel.getTransit();
@@ -168,73 +143,72 @@ public class LogisticSenderService implements SenderService {
         }
 
         private void generatePostOffices() {
-
             List<PostOffice> postOffices = new ArrayList<>();
 
             Address address;
             Package.Type[] accessiblePackageTypes;
-            int maxWeight;
+            int maxPackageWeight;
             Point location;
 
             address = new PostAddress(12345, "Ukraine", "Kharkov", "Ivanova");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_10, Package.Type.T_25, Package.Type.T_27};
-            maxWeight = 100;
+            maxPackageWeight = 100;
             location = new Point(12345, 10102);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(63524, "Ukraine", "Kiev", "Shevchenco");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_30, Package.Type.T_25};
-            maxWeight = 100;
+            maxPackageWeight = 100;
             location = new Point(24513, 20007);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(44466, "Ukraine", "Donetsk", "Artema");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_10, Package.Type.T_27,};
-            maxWeight = 30;
+            maxPackageWeight = 30;
             location = new Point(22855, 35784);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(56478, "Russia", "Moscow", "Tverskaja");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_CP, Package.Type.T_25, Package.Type.T_30, Package.Type.T_27};
-            maxWeight = 50;
+            maxPackageWeight = 50;
             location = new Point(45896, 90444);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(50987, "Russia", "StPeterburg", "Nevcki");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_10, Package.Type.T_25, Package.Type.T_27};
-            maxWeight = 100;
+            maxPackageWeight = 100;
             location = new Point(62541, 65586);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(45456, "Russia", "Novgorod", "Lenina");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_30, Package.Type.T_25};
-            maxWeight = 100;
+            maxPackageWeight = 100;
             location = new Point(11945, 24059);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(95864, "England", "London", "Times Square");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_10, Package.Type.T_25, Package.Type.T_27};
-            maxWeight = 50;
+            maxPackageWeight = 50;
             location = new Point(18755, 98640);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(25896, "UAE", "Dubai", "Burj Halifa");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_10, Package.Type.T_27,};
-            maxWeight = 30;
+            maxPackageWeight = 30;
             location = new Point(88545, 62418);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(65489, "USA", "New York", "34-ave");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_10, Package.Type.T_25, Package.Type.T_30};
-            maxWeight = 150;
+            maxPackageWeight = 150;
             location = new Point(55284, 12563);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             address = new PostAddress(15396, "France", "Paris", "Mulen Rouge");
             accessiblePackageTypes = new Package.Type[]{Package.Type.T_25, Package.Type.T_27,};
-            maxWeight = 300;
+            maxPackageWeight = 300;
             location = new Point(44455, 67788);
-            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxWeight, location));
+            postOffices.add(new PostOfficeImpl(accessiblePackageTypes, address, maxPackageWeight, location));
 
             storage.putToStorage("postOffices", postOffices);
         }
@@ -255,17 +229,15 @@ public class LogisticSenderService implements SenderService {
 
             List<DeliveryTransport> deliveryTransports = new ArrayList<>();
 
-            for (int i = 0; i < NUMBER_OF_DELIVERY_TRANSPORTS; i++) {
+            for (int i = 0; i < NUMBER_OF_DELIVERY_TRANSPORTS / 2; i++) {
                 from = getPostOfficeByCountry(startPostOfficeCities.get(i));
                 to = getPostOfficeByCountry(destPostOfficeCities.get(i));
                 transportType = randomTransportType();
                 distance = calculateDistance(from.getGeolocation(), to.getGeolocation());
                 deliveryTransports.add(new DeliveryTransportImpl(transportType, from, to, distance));
-
                 // add the road back
                 deliveryTransports.add(new DeliveryTransportImpl(transportType, to, from, distance));
             }
-
             storage.putToStorage("deliveryTransports", deliveryTransports);
         }
 
@@ -279,7 +251,7 @@ public class LogisticSenderService implements SenderService {
             return null;
         }
 
-        // mock version
+        // mock version without path searching
         private void generateDeliveryTransports1() {
             DeliveryTransport.Type transportType;
             int distance;

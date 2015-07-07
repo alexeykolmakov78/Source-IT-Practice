@@ -17,11 +17,10 @@ public class Dijkstra {
     private static List<PostOffice> postOffices;
     private static List<DeliveryTransport> transitDeliveryTransports;
 
-    static Queue<Node> nodeQueue = new PriorityQueue<>((n1, n2) -> (int) (n2.minDistance - n1.minDistance));
+    private Queue<Node> nodeQueue;
 
     public static Dijkstra getDijkstra() {
         Dijkstra dijkstra = new Dijkstra();
-        initNodes(dijkstra);
         return dijkstra;
     }
 
@@ -32,41 +31,37 @@ public class Dijkstra {
     }
 
     public void search(PostOffice start, Dijkstra.SearchParam param) {
+        initNodes();
+        nodeQueue = new PriorityQueue<>((n1, n2) -> (int) (n2.minWeight - n1.minWeight));
         Node startNode = getByPostOffice(start, nodes);
-        startNode.minDistance = 0;
+        startNode.minWeight = 0;
         nodeQueue.add(startNode);
         while (!nodeQueue.isEmpty()) {
             Node current = nodeQueue.poll();
             List<DeliveryTransport> curRelatedDT = current.relatedDeliveryTransports();
             for (DeliveryTransport dt : curRelatedDT) {
                 Node next = getByPostOffice(dt.getDestinationPostOffice(), nodes);
-                // in case of searching cheapest transit
-                // todo changes to ensure different types of weight(coast, distance, time)
-//                double weight = dt.getPrice();
-                // in case of searching shortest transit
-//                double weight = dt.getDistance();
                 double weight = getWeight(dt, param);
-                double distanceThroughCurrent = current.minDistance + weight;
-                if (distanceThroughCurrent < next.minDistance) {
-                    nodeQueue.remove(next);
-                    next.minDistance = distanceThroughCurrent;
+                double distanceThroughCurrent = current.minWeight + weight;
+                if (distanceThroughCurrent < next.minWeight) {
+                    next.minWeight = distanceThroughCurrent;
                     next.previous = current;
                     nodeQueue.add(next);
                 }
+//                System.out.println("------everyStep nodeQueue next" + next);
+//                System.out.println("------everyStep nodeQueue"+nodeQueue);
             }
         }
     }
 
     private double getWeight(DeliveryTransport dt, SearchParam param) {
-        switch (param){
+        switch (param) {
             case COST:
                 return dt.getPrice();
             case DISTANCE:
                 return dt.getDistance();
         }
-
-
-        return 0;
+        throw new IllegalArgumentException("Incorrect param type " + param);
     }
 
     // shortest path
@@ -79,13 +74,14 @@ public class Dijkstra {
         return path;
     }
 
-    private static void initNodes(Dijkstra dijkstra) {
+    private void initNodes() {
+        nodes.clear();
         nodes.addAll(postOffices.stream()
-                .map(po -> dijkstra.new Node(po, INF, null))
+                .map(po -> this.new Node(po, INF, null))
                 .collect(Collectors.toList()));
     }
 
-    private Node getByPostOffice(PostOffice po, Collection <Node> nodeCollection) {
+    private Node getByPostOffice(PostOffice po, Collection<Node> nodeCollection) {
         for (Node n : nodeCollection) {
             if (n.current.equals(po)) {
                 return n;
@@ -94,20 +90,20 @@ public class Dijkstra {
         return null;
     }
 
-    public enum SearchParam{
+    public enum SearchParam {
         COST, DISTANCE
     }
 
     /****************************************************************************/
     final class Node {
         private PostOffice current;
-        private double minDistance;
+        private double minWeight;
         private Node previous;
         private List<DeliveryTransport> relatedDT;
 
         public Node(PostOffice current, double minDistance, PostOffice previous) {
             this.current = current;
-            this.minDistance = minDistance;
+            this.minWeight = minDistance;
             this.previous = getByPostOffice(previous, nodes);
             this.relatedDT = relatedDeliveryTransports();
         }
@@ -122,10 +118,10 @@ public class Dijkstra {
         @Override
         public String toString() {
             return "\nNode{" +
-                    "current=" + current +
-                    ", minDistance=" + minDistance +
-                    ", previous=" + previous +
-                    ", relatedDT=" + relatedDT +
+                    "current=" + current.getAddress().getCountry() +
+                    ", \nminWeight=" + minWeight +
+                    ", \nprevious=" + ((previous == null) ? "null" : previous.current) +
+                    ", \nrelatedDT=" + relatedDT +
                     '}';
         }
     }

@@ -90,7 +90,6 @@ public class PostOfficeImpl implements PostOffice {
         return id;
     }
 
-
     @Override
     public String toString() {
         return "\nPO{" +

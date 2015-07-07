@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class TransitImpl implements Transit {
     private static final List<DeliveryTransport> DELIVERY_TRANSPORTS = Storage.getInstance().getById("deliveryTransports");
-    private List<PostOffice> postOffices;//transit post offices
 
+    private List<PostOffice> postOffices;//transit post offices
     public TransitImpl(List<PostOffice> postOffices) {
         this.postOffices = postOffices;
     }
@@ -33,23 +33,28 @@ public class TransitImpl implements Transit {
             for (DeliveryTransport dt : DELIVERY_TRANSPORTS) {
                 if (dt.getStartPostOffice().equals(postOffices.get(i))
                         && dt.getDestinationPostOffice().equals(postOffices.get(i + 1))) {
-
-                   // System.out.println("DEBUG: TransitImpl getTransitDeliveryTransports()" + dt);
-
                     result.add(dt);
                 }
             }
         }
-//        System.out.println("DEBUG: TransitImpl> getTransitDeliveryTransports()> result" + result);
         return result;
     }
 
     @Override
     public double getPrice() {
         double price = 0;
-        for (DeliveryTransport dt : DELIVERY_TRANSPORTS) {
+        for (DeliveryTransport dt : getTransitDeliveryTransports()) {
             price += dt.getPrice();
         }
         return price;
+    }
+
+    @Override
+    public double getDistance() {
+        double distance = 0;
+        for (DeliveryTransport dt : getTransitDeliveryTransports()) {
+            distance += dt.getDistance();
+        }
+        return distance;
     }
 }

@@ -23,7 +23,6 @@ public class PackageImpl implements Package {
     private Type packageType;
     private int weight;
     private List<Stamp> stamps;
-
     private Status status;
     private Transit transit;
 
@@ -37,7 +36,6 @@ public class PackageImpl implements Package {
         this.packageType = packageType;
         this.weight = weight;
         this.stamps = new ArrayList<>();
-
         this.status = Status.READY;
         //this.transit = null;
     }
