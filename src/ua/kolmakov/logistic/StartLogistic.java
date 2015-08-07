@@ -67,7 +67,7 @@ public class StartLogistic {
         System.out.println("\n----------SELECT TRANSIT----------");
         System.out.println("Press 1 to select the cheapest transit\n" +
                 "Press 2 to select the shortest transit\n");
-        int variant = inputNumber() - 1;
+        int variant = inputNumber() ;
         return transitVariants[variant];
     }
 

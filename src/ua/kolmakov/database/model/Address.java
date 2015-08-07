@@ -1,40 +1,39 @@
-package ua.kolmakov.logistic.impl.model.person;
-
-import ua.kolmakov.logistic.api.model.person.Address;
+package ua.kolmakov.database.model;
 
 /**
  * Created by Kolmakov Alexey on 27.05.2015.
  */
-public class PostAddress implements Address {
-
+public class Address {
+    private int id;
     private String street;
     private String city;
     private String country;
     private int code;
 
-    public PostAddress(int code, String country, String city, String street) {
+    public Address(int id, int code, String country, String city, String street) {
         this.code = code;
         this.country = country;
         this.city = city;
         this.street = street;
+        this.id = id;
     }
 
-    @Override
+    public int getId() {
+        return id;
+    }
+
     public String getStreet() {
         return street;
     }
 
-    @Override
     public String getCity() {
         return city;
     }
 
-    @Override
     public String getCountry() {
         return country;
     }
 
-    @Override
     public int getCode() {
         return code;
     }
@@ -56,21 +55,11 @@ public class PostAddress implements Address {
     }
 
     @Override
-    public String toString() {
-        return "{" +
-                "city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", country='" + country + '\'' +
-                ", code=" + code +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PostAddress that = (PostAddress) o;
+        Address that = (Address) o;
 
         if (code != that.code) return false;
         if (street != null ? !street.equals(that.street) : that.street != null) return false;
@@ -86,5 +75,15 @@ public class PostAddress implements Address {
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + code;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", country='" + country + '\'' +
+                ", code=" + code +
+                '}';
     }
 }

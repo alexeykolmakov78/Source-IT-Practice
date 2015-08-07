@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Kolmakov Alexey on 16.06.2015.
  * <p>
- * AutoDataStorage
+ * StorageManager
  */
 public class AutoDataStorage implements AutoDataRequests {
     private static AutoDataStorage instance = new AutoDataStorage();
@@ -83,7 +83,7 @@ public class AutoDataStorage implements AutoDataRequests {
 
     @Override
     public String toString() {
-        return "AutoDataStorage{" +
+        return "MultiThreadAutoDataStorage{" +
                 "drivers:" + getById("drivers") +
                 "\nvehicles:" + getById("vehicles") +
                 '}';

@@ -1,16 +1,24 @@
-package ua.kolmakov.logistic.impl.model.person;
+package ua.kolmakov.multithreaded_storage.entities;
 
 import ua.kolmakov.logistic.api.model.person.Address;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by Kolmakov Alexey on 27.05.2015.
  */
+
+@XmlRootElement(name = "address")
 public class PostAddress implements Address {
 
     private String street;
     private String city;
     private String country;
     private int code;
+
+    public PostAddress() {
+    }
 
     public PostAddress(int code, String country, String city, String street) {
         this.code = code;
@@ -39,18 +47,22 @@ public class PostAddress implements Address {
         return code;
     }
 
+    @XmlAttribute(name = "street")
     public void setStreet(String street) {
         this.street = street;
     }
 
+    @XmlAttribute(name = "city")
     public void setCity(String city) {
         this.city = city;
     }
 
+    @XmlAttribute(name = "country")
     public void setCountry(String country) {
         this.country = country;
     }
 
+    @XmlAttribute(name = "code")
     public void setCode(int code) {
         this.code = code;
     }

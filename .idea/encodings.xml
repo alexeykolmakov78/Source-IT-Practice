@@ -2,6 +2,21 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/src" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/Main.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/DiscountCalculator.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/discounts/AccumDiscount.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/discounts/BaseDiscount.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/discounts/GroupDiscount.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/discounts/ProductDiscount.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/gpoupes/BaseGroup.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/gpoupes/Electronics.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/gpoupes/Mobile.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/gpoupes/PC.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/products/BaseProduct.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/products/Laptop.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/products/MobilePhone.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/products/SmartPhone.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/ua/kolmakov/discount/impl/products/VacuumCleaner.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/ua/kolmakov/lab4/Lab4.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ua/kolmakov/lab4/lab 4.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/ua/kolmakov/lab5/lab5.txt" charset="UTF-8" />

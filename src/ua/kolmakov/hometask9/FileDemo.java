@@ -9,7 +9,7 @@ import java.io.Writer;
  * Created by Kolmakov Alexey on 23.06.2015.
  */
 public class FileDemo {
-    // 1) Написать программу, которая создаст текстовый файл и запишет в него список файлов (путь, имя, дата создания) из заданного каталога.
+// 1) Написать программу, которая создаст текстовый файл и запишет в него список файлов (путь, имя, дата создания) из заданного каталога.
 
     private static final String DIR = "F:\\Documents\\IdeaProjects\\Source-IT-Practice\\src";
 //    private static final String DIR = "F:\\Documents\\IdeaProjects\\Source-IT-Practice\\src\\ua\\kolmakov\\logistic\\StartLogistic.java";

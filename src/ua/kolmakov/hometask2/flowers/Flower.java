@@ -16,7 +16,6 @@ public abstract class Flower {
         this.color = color;
         this.price = price;
     }
-/* Нужно ли определять методы getName()и getColor(), если я их не использую, но может быть буду исполизовать в будующем */
 
     public String getName() {
         return name;

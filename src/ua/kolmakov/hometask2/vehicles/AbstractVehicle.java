@@ -3,7 +3,7 @@ package ua.kolmakov.hometask2.vehicles;
 /**
  * Created by Kolmakov Alexey on 03.05.2015.
  * <p>
- * Abstract Vehicle.
+ * Abstract Car.
  */
 public abstract class AbstractVehicle implements Vehicle {
 

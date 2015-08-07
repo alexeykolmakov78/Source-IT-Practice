@@ -1,50 +1,100 @@
-package ua.kolmakov.hometask8;
+package ua.kolmakov.multithreaded_storage;
 
-import ua.kolmakov.logistic.api.model.person.Address;
-import ua.kolmakov.logistic.impl.model.person.PostAddress;
+import ua.kolmakov.multithreaded_storage.api.Requests;
+import ua.kolmakov.multithreaded_storage.entities.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Created by Kolmakov Alexey on 16.06.2015.
+ * Created by Kolmakov Alexey on 02.07.2015.
+ * <p>
+ * StorageManager
+ * This class get connections with Clients and the MultiThreadAutoDataStorage:
+ * <p>
+ * StorageManager starts in the own thread
  */
-public class TestDataStorage {
+public class StorageManager implements Runnable, Requests {
+    public static MultiThreadAutoDataStorage storage = MultiThreadAutoDataStorage.getInstance();
 
-    public static AutoDataStorage storage = AutoDataStorage.getInstance();
+    @Override
+    public void run() {
+        synchronized (storage) {
+            Initializer.initAutoOwners();
+            Initializer.initVehicles();
+            while (true) {
+                try {
+                    System.out.println("STORAGE_MANAGER: is ready");
+                    storage.wait(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
-    public static void main(String[] args) {
-        Initializer.initAutoOwners();
-        Initializer.initVehicles();
-        // System.out.println(storage);
-        //д) вывод информации о всех транспортных средствах (ФИО владельца в том числе);
-        System.out.println("\nThe list of vehicles:\n");
-        System.out.println(storage.getAllVehicles());
-        System.out.println("#################################################################################");
-        //е) поиск информации о транспортных средствах, зарегистрированных на данного автовладельца (поиск осуществлять по фамилии);
-        System.out.println("\nThe list of the vehicles which owner last name is  \"Jones\":\n");
-        System.out.println(storage.getVehiclesByOwnerLastName("Jones"));
-        System.out.println("#################################################################################");
-        //ж) поиск информации о владельце по части номерного знака;
-        System.out.println("\nThe list of the owners of the vehicles which registration numbers contains \"000\":\n");
-        System.out.println(storage.getAutoOwnersByPartOfRegistrationNumber("000"));
-        System.out.println("#################################################################################");
-        //з) вывод информации о всех транспортных средствах, вовремя не прошедших ТО;
-        System.out.println("\nThe list of the vehicles which had no service more than 2 years:\n");
-        System.out.println(storage.getNotServicedInTimeVehicles(2));
-        System.out.println("#################################################################################");
-        //и) вывод информации о всех автовладельцах, которые управляли транспортом в нетрезвом виде;
-        System.out.println("\nThe list of the auto owners who had been catch drunk:\n");
-        System.out.println(storage.getDrinkingAutoOwners());
-        System.out.println("#################################################################################");
-        //к) вывод информации о всех транспортных средствах, участвовавших в ДТП.
-        System.out.println("\nThe list of the vehicles which were participants of RTA:\n");
-        System.out.println(storage.getVehiclesRTAParticipants());
-        System.out.println("#################################################################################");
+    @Override
+    public List<Vehicle> getAllVehicles() {
+        return storage.getById("vehicles");
+    }
+
+    @Override
+    public List<Vehicle> getVehiclesByOwnerLastName(String lastName) {
+        Set<Vehicle> vehicles = storage.getById("vehicles");
+        return vehicles.stream()
+                .filter(v -> v.getOwnerLastName().equals(lastName))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AutoOwner> getAutoOwnersByPartOfRegistrationNumber(String numberPart) {
+        Set<Vehicle> vehicles = storage.getById("vehicles");
+        return vehicles.stream()
+                .filter(v -> v.getRegistrationNumber().contains(numberPart))
+                .map(v-> getByLastName(v.getOwnerLastName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Vehicle> getNotServicedInTimeVehicles(int yearsBetweenServices) {
+        Set<Vehicle> vehicles = storage.getById("vehicles");
+        return vehicles.stream()
+                .filter(v -> v.getLastServiceDate().getYear() + yearsBetweenServices < new Date().getYear())//max 3 years to next service
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AutoOwner> getDrinkingAutoOwners() {
+        Set<AutoOwner> autoOwners = storage.getById("autoOwners");
+        List<AutoOwner> drunken = new ArrayList<>();
+        for (AutoOwner a : autoOwners) {
+            drunken.addAll(
+                    a.getOffences().stream()
+                            .filter(o -> o.getType() == Offence.Type.DRUNK)
+                            .map(o -> a)
+                            .collect(Collectors.toList()));
+        }
+        return drunken;
+    }
+
+    @Override
+    public List<Vehicle> getVehiclesRTAParticipants() {
+        List<Vehicle> vehicles = storage.getById("vehicles");
+        return vehicles.stream()
+                .filter(v -> v.getRtaList().size() > 0)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "MultiThreadAutoDataStorage{" +
+                "drivers:" + storage.getById("drivers") +
+                "\nvehicles:" + storage.getById("vehicles") +
+                '}';
     }
 
     private static class Initializer {
-        static void initAutoOwners() {
+        private static void initAutoOwners() {
 //Person
             String firstName, lastName, middleName;
             Date dateOfBirth;
@@ -54,7 +104,7 @@ public class TestDataStorage {
             String passportID;
             Date passportRegistrationDate;
             String passportRegisteredBy;
-            Address address;
+            PostAddress address;
 //Licence
             String licenceID;
             Licence.Category category;
@@ -69,7 +119,7 @@ public class TestDataStorage {
             List<String> middleNames = new ArrayList<>(Arrays.asList(new String[]{
                     "Steven", "Martin", "Jan", "John", "Robin", "Bob", "Mathew", "Patric", "Smith", "Ted"}));
 
-            List<Address> addresses = new ArrayList<>();
+            List<PostAddress> addresses = new ArrayList<>();
             addresses.add(new PostAddress(34634, "USA", "New York", "10th st"));
             addresses.add(new PostAddress(25482, "USA", "San Francisco", "Evance ave"));
             addresses.add(new PostAddress(78682, "USA", "Los Angeles", "Beach ave"));
@@ -133,7 +183,7 @@ public class TestDataStorage {
                     Licence.Category.B, Licence.Category.B, Licence.Category.A, Licence.Category.B, Licence.Category.C,}));
 
             // create 10 drives
-            Set<AutoOwner> autoOwners = new HashSet<>();
+            List<AutoOwner> autoOwners = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
                 firstName = firstNames.get(i);
                 lastName = lastNames.get(i);
@@ -158,13 +208,15 @@ public class TestDataStorage {
                         .setLicence(licence)
                         .build();
                 autoOwners.add(autoOwner);
+
+
             }
             storage.putToStorage("autoOwners", autoOwners);
             AutoOwner drunkard = getByLastName("Brown");
-            drunkard.addOffence( new Offence(randomDate(2013, 2014),Offence.Type.DRUNK));
+            drunkard.addOffence(new Offence(randomDate(2013, 2014), Offence.Type.DRUNK));
         }
 
-        static void initVehicles() {
+        private static void initVehicles() {
             // preparing data for 14 vehicles
             List<String> brands = new ArrayList<>(Arrays.asList(new String[]{
                     "Toyota", "BMW", "Mercedes", "Audi", "Toyota", "Toyota", "Lexus",
@@ -181,6 +233,7 @@ public class TestDataStorage {
                 productionDates.add(randomDate(2004, 2012));
             }
 
+            // date of the last technical service
             List<Date> lastServiceDates = new ArrayList<>();
             for (int i = 0; i < brands.size(); i++) {
                 lastServiceDates.add(randomDate(2012, 2014));
@@ -207,7 +260,7 @@ public class TestDataStorage {
                 Vehicle vehicle = Vehicle.newBuilder()
                         .setBrand(brands.get(i))
                         .setModel(models.get(i))
-                        .setOwner(getByLastName(ownersLastNames.get(i)))
+                        .setOwnerLastName(ownersLastNames.get(i))
                         .setProductionDate(productionDates.get(i))
                         .setLastServiceDate(lastServiceDates.get(i))
                         .setRegistrationNumber(registrationNumbers.get(i))
@@ -220,9 +273,9 @@ public class TestDataStorage {
                 vehicles.add(vehicle);
 
                 //add all vehicles to the corresponding owners vehicles lists.
-                HashSet<AutoOwner> autoOwners = storage.getById("autoOwners");
+                ArrayList<AutoOwner> autoOwners = storage.getById("autoOwners");
                 autoOwners.stream()
-                        .filter(d -> d == vehicle.getOwner())
+                        .filter(d -> d == getByLastName(vehicle.getOwnerLastName()))
                         .forEach(d -> d.addVehicle(vehicle));
 
                 storage.putToStorage("vehicles", vehicles);
@@ -238,15 +291,14 @@ public class TestDataStorage {
             return new Date(year, month, day);
         }
 
-        //можно реализовать этот метод в MultiThreadAutoDataStorage
-        private static AutoOwner getByLastName(String lastName) {
-            Set<AutoOwner> autoOwners = storage.getById("autoOwners");
-            return autoOwners.stream()
-                    .filter(ln -> lastName .equals(ln.getPassport().getLastName()))
-                    .findAny().get();
-        }
+    }
 
+    //можно реализовать этот метод в Storage или AutoOwner
+    public static AutoOwner getByLastName(String lastName) {
+        List<AutoOwner> autoOwners = storage.getById("autoOwners");
+        return autoOwners.stream()
+                .filter(o -> lastName.equals(o.getPassport().getLastName()))
+                .findAny().get();
     }
 
 }
-

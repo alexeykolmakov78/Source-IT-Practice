@@ -271,7 +271,6 @@ public class LogisticSenderService implements SenderService {
             storage.putToStorage("deliveryTransports", deliveryTransports);
         }
 
-
         private DeliveryTransport.Type randomTransportType() {
             int index = rnd.nextInt(DeliveryTransport.Type.values().length);
             return DeliveryTransport.Type.values()[index];
